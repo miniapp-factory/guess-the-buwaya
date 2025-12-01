@@ -24,6 +24,7 @@ export default function Game() {
   const [feedback, setFeedback] = useState<"correct" | "incorrect" | null>(null);
   const [started, setStarted] = useState(false);
   const [showInstructions, setShowInstructions] = useState(false);
+  const [gameOver, setGameOver] = useState(false);
 
   const current = profiles[index];
 
@@ -33,8 +34,19 @@ export default function Game() {
     if (correct) setScore((s) => s + 1);
     setTimeout(() => {
       setFeedback(null);
-      setIndex((i) => (i + 1) % profiles.length);
+      if (index + 1 >= profiles.length) {
+        setGameOver(true);
+      } else {
+        setIndex((i) => i + 1);
+      }
     }, 1000);
+  };
+
+  const resetGame = () => {
+    setIndex(0);
+    setScore(0);
+    setFeedback(null);
+    setGameOver(false);
   };
 
   return (
@@ -51,6 +63,13 @@ export default function Game() {
           <p>Review each politician’s monthly salary and declared wealth. Decide quickly if they are <strong>CORRUPT</strong> or <strong>NOT CORRUPT</strong> by tapping the respective button.</p>
           <p>If your guess is correct, the screen briefly confirms it; if you’re wrong, the screen turns red for a moment. Then the game moves on to the next profile, keeping track of your score as you play.</p>
           <Button onClick={() => setShowInstructions(false)}>Back to Game</Button>
+        </div>
+      ) : gameOver ? (
+        <div className="flex flex-col items-center gap-4 bg-white rounded-lg p-6 shadow-lg">
+          <h2 className="text-2xl font-semibold">Game Over</h2>
+          <img src="/final-score.png" alt="Final score graphic" className="w-32 h-32 mb-4" />
+          <p className="text-xl">Your final score: {score} / {profiles.length}</p>
+          <Button onClick={resetGame}>Play Again</Button>
         </div>
       ) : (
         <div className="flex flex-col items-center gap-4 bg-white rounded-lg p-6 shadow-lg">
