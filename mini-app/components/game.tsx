@@ -39,7 +39,9 @@ export default function Game() {
       if (index + 1 >= profiles.length) {
         setGameOver(true);
       } else {
-        setIndex((i) => i + 1);
+        const nextIndex = index + 1;
+        setIndex(nextIndex);
+        setTimeLeft(profiles[nextIndex].time);
       }
     }, 1000);
   };
