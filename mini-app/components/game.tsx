@@ -8,13 +8,14 @@ type Profile = {
   salary: number;
   wealth: number;
   isCorrupt: boolean;
+  image: string;
 };
 
 const profiles: Profile[] = [
-  { name: "John Doe", salary: 50000, wealth: 200000, isCorrupt: false },
-  { name: "Jane Smith", salary: 75000, wealth: 500000, isCorrupt: true },
-  { name: "Alex Johnson", salary: 60000, wealth: 300000, isCorrupt: false },
-  { name: "Maria Garcia", salary: 85000, wealth: 700000, isCorrupt: true },
+  { name: "John Doe", salary: 50000, wealth: 200000, isCorrupt: false, image: "/john.png" },
+  { name: "Jane Smith", salary: 75000, wealth: 500000, isCorrupt: true, image: "/jane.png" },
+  { name: "Alex Johnson", salary: 60000, wealth: 300000, isCorrupt: false, image: "/alex.png" },
+  { name: "Maria Garcia", salary: 85000, wealth: 700000, isCorrupt: true, image: "/maria.png" },
 ];
 
 export default function Game() {
@@ -54,7 +55,7 @@ export default function Game() {
       ) : (
         <div className="flex flex-col items-center gap-4 bg-white rounded-lg p-6 shadow-lg">
           <h2 className="text-xl font-semibold">{current.name}</h2>
-          <img src="/graphic.png" alt="Game graphic" className="w-32 h-32 mb-4" />
+          <img src={current.image} alt={`${current.name} portrait`} className="w-32 h-32 mb-4" />
           <p>Monthly Salary: ${current.salary}</p>
           <p>Declared Wealth: ${current.wealth}</p>
           <div className="flex gap-4">
