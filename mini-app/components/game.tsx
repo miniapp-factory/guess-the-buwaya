@@ -77,6 +77,6 @@ export default function Game() {
           <p className="mt-4">Score: {score}</p>
         </div>
       )}
-    </>
+    </div>
   );
 }
