@@ -9,13 +9,14 @@ type Profile = {
   wealth: number;
   isCorrupt: boolean;
   image: string;
+  time: number;
 };
 
 const profiles: Profile[] = [
-  { name: "John Doe", salary: 50000, wealth: 200000, isCorrupt: false, image: "/john.png" },
-  { name: "Jane Smith", salary: 75000, wealth: 500000, isCorrupt: true, image: "/jane.png" },
-  { name: "Alex Johnson", salary: 60000, wealth: 300000, isCorrupt: false, image: "/alex.png" },
-  { name: "Maria Garcia", salary: 85000, wealth: 700000, isCorrupt: true, image: "/maria.png" },
+  { name: "John Doe", salary: 50000, wealth: 200000, isCorrupt: false, image: "/john.png", time: 10 },
+  { name: "Jane Smith", salary: 75000, wealth: 500000, isCorrupt: true, image: "/jane.png", time: 10 },
+  { name: "Alex Johnson", salary: 60000, wealth: 300000, isCorrupt: false, image: "/alex.png", time: 10 },
+  { name: "Maria Garcia", salary: 85000, wealth: 700000, isCorrupt: true, image: "/maria.png", time: 10 },
 ];
 
 export default function Game() {
@@ -63,6 +64,11 @@ export default function Game() {
     return () => clearInterval(timer);
   }, [started, gameOver, showInstructions, timeLeft, handleGuess]);
 
+  useEffect(() => {
+    if (!started || gameOver || showInstructions) return;
+    setTimeLeft(current.time);
+  }, [index, started, gameOver, showInstructions]);
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-yellow-200 to-orange-200">
       {!started ? (
@@ -99,11 +105,12 @@ export default function Game() {
               CORRUPT
             </Button>
           </div>
+          <p className="text-lg">Time: {current.time}s</p>
           <p className="text-lg">Time left: {timeLeft}s</p>
           <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
             <div
               className="bg-blue-500 h-2 rounded-full"
-              style={{ width: `${((index + 1) / profiles.length) * 100}%` }}
+              style={{ width: `${(timeLeft / current.time) * 100}%` }}
             />
           </div>
           {feedback && (
