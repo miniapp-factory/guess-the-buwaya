@@ -37,6 +37,7 @@ export default function Game() {
   return (
     <div className="flex flex-col items-center gap-4">
       <h2 className="text-xl font-semibold">{current.name}</h2>
+      <img src="/graphic.png" alt="Game graphic" className="w-32 h-32 mb-4" />
       <p>Monthly Salary: ${current.salary}</p>
       <p>Declared Wealth: ${current.wealth}</p>
       <div className="flex gap-4">
