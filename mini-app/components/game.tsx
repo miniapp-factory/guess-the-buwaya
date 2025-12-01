@@ -37,22 +37,22 @@ export default function Game() {
   };
 
   return (
-    <>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-100 to-purple-100">
       {!started ? (
-        <div className="flex flex-col items-center gap-4">
+        <div className="flex flex-col items-center gap-4 bg-white rounded-lg p-6 shadow-lg">
           <h2 className="text-2xl font-semibold">Political Hearing Game</h2>
           <Button onClick={() => setStarted(true)}>Start Game</Button>
           <Button variant="outline" onClick={() => setShowInstructions(true)}>How to Play</Button>
         </div>
       ) : showInstructions ? (
-        <div className="flex flex-col items-center gap-4">
+        <div className="flex flex-col items-center gap-4 bg-white rounded-lg p-6 shadow-lg">
           <h2 className="text-xl font-semibold">How to Play</h2>
           <p>Review each politician’s monthly salary and declared wealth. Decide quickly if they are <strong>CORRUPT</strong> or <strong>NOT CORRUPT</strong> by tapping the respective button.</p>
           <p>If your guess is correct, the screen briefly confirms it; if you’re wrong, the screen turns red for a moment. Then the game moves on to the next profile, keeping track of your score as you play.</p>
           <Button onClick={() => setShowInstructions(false)}>Back to Game</Button>
         </div>
       ) : (
-        <div className="flex flex-col items-center gap-4">
+        <div className="flex flex-col items-center gap-4 bg-white rounded-lg p-6 shadow-lg">
           <h2 className="text-xl font-semibold">{current.name}</h2>
           <img src="/graphic.png" alt="Game graphic" className="w-32 h-32 mb-4" />
           <p>Monthly Salary: ${current.salary}</p>
