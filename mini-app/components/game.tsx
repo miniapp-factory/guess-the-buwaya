@@ -25,6 +25,7 @@ export default function Game() {
   const [started, setStarted] = useState(false);
   const [showInstructions, setShowInstructions] = useState(false);
   const [gameOver, setGameOver] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(10);
 
   const current = profiles[index];
 
@@ -47,10 +48,23 @@ export default function Game() {
     setScore(0);
     setFeedback(null);
     setGameOver(false);
+    setTimeLeft(10);
   };
 
+  useEffect(() => {
+    if (!started || gameOver || showInstructions) return;
+    if (timeLeft === 0) {
+      handleGuess(false);
+      return;
+    }
+    const timer = setInterval(() => {
+      setTimeLeft((t) => t - 1);
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [started, gameOver, showInstructions, timeLeft, handleGuess]);
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-100 to-purple-100">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-yellow-200 to-orange-200">
       {!started ? (
         <div className="flex flex-col items-center gap-4 bg-white rounded-lg p-6 shadow-lg">
           <h2 className="text-2xl font-semibold">Political Hearing Game</h2>
@@ -85,6 +99,13 @@ export default function Game() {
               CORRUPT
             </Button>
           </div>
+          <p className="text-lg">Time left: {timeLeft}s</p>
+          <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
+            <div
+              className="bg-blue-500 h-2 rounded-full"
+              style={{ width: `${((index + 1) / profiles.length) * 100}%` }}
+            />
+          </div>
           {feedback && (
             <div
               className={`text-lg font-medium ${
@@ -92,6 +113,7 @@ export default function Game() {
               }`}
             >
               {feedback === "correct" ? "Correct!" : "Incorrect!"}
+              {feedback === "correct" && <span className="text-4xl ml-2">🎉</span>}
             </div>
           )}
           <p className="mt-4">Score: {score}</p>
