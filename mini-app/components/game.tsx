@@ -26,6 +26,7 @@ export default function Game() {
   const [started, setStarted] = useState(false);
   const [showInstructions, setShowInstructions] = useState(false);
   const [gameOver, setGameOver] = useState(false);
+  const [highScore, setHighScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(10);
 
   const current = profiles[index];
@@ -71,11 +72,26 @@ export default function Game() {
     setTimeLeft(current.time);
   }, [index, started, gameOver, showInstructions]);
 
+  useEffect(() => {
+    if (gameOver) {
+      if (score > highScore) {
+        setHighScore(score);
+        localStorage.setItem('highScore', score.toString());
+      }
+    }
+  }, [gameOver, score, highScore]);
+
+  useEffect(() => {
+    const stored = localStorage.getItem('highScore');
+    if (stored) setHighScore(Number(stored));
+  }, []);
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-yellow-200 to-orange-200">
       {!started ? (
         <div className="flex flex-col items-center gap-4 bg-white rounded-lg p-6 shadow-lg">
           <h2 className="text-2xl font-semibold">Political Hearing Game</h2>
+          <p className="text-lg">High Score: {highScore}</p>
           <Button onClick={() => setStarted(true)}>Start Game</Button>
           <Button variant="outline" onClick={() => setShowInstructions(true)}>How to Play</Button>
         </div>
@@ -91,6 +107,7 @@ export default function Game() {
           <h2 className="text-2xl font-semibold">Game Over</h2>
           <img src="/final-score.png" alt="Final score graphic" className="w-32 h-32 mb-4" />
           <p className="text-xl">Your final score: {score} / {profiles.length}</p>
+          <p className="text-xl">High Score: {highScore}</p>
           <Button onClick={resetGame}>Play Again</Button>
         </div>
       ) : (
